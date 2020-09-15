@@ -8,7 +8,7 @@ import * as http from 'http';
 import { AddressInfo } from 'net';
 import { app, BrowserWindow, BrowserView, ipcMain, OnBeforeSendHeadersListenerDetails, protocol, screen, webContents, session, WebContents } from 'electron/main';
 
-import { emittedOnce, emittedUntil } from './events-helpers';
+import { emittedOnce, emittedUntil, emittedNTimes } from './events-helpers';
 import { ifit, ifdescribe, defer, delay } from './spec-helpers';
 import { closeWindow, closeAllWindows } from './window-helpers';
 
@@ -4020,6 +4020,17 @@ describe('BrowserWindow module', () => {
         w.setFullScreen(false);
         await leaveFullScreen;
         expect(w.isFullScreen()).to.be.false('isFullScreen');
+      });
+
+      it('handles several transitions in close proximity', async () => {
+        const w = new BrowserWindow();
+
+        w.setFullScreen(true);
+        w.setFullScreen(false);
+        w.setFullScreen(true);
+
+        const enterFullScreen = emittedNTimes(w, 'enter-full-screen', 2);
+        await enterFullScreen;
       });
 
       it('does not crash when exiting simpleFullScreen (properties)', async () => {
