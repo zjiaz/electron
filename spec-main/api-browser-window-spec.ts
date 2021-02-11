@@ -4022,6 +4022,25 @@ describe('BrowserWindow module', () => {
         expect(w.isFullScreen()).to.be.false('isFullScreen');
       });
 
+      it('handles several transitions starting with fullscreen', async () => {
+        const w = new BrowserWindow({ fullscreen: true, show: true });
+
+        w.setFullScreen(false);
+        w.setFullScreen(true);
+
+        const enterFullScreen = emittedNTimes(w, 'enter-full-screen', 2);
+        await enterFullScreen;
+
+        expect(w.isFullScreen()).to.be.true('not fullscreen');
+
+        await delay();
+        const leaveFullScreen = emittedOnce(w, 'leave-full-screen');
+        w.setFullScreen(false);
+        await leaveFullScreen;
+
+        expect(w.isFullScreen()).to.be.false('is fullscreen');
+      });
+
       it('handles several transitions in close proximity', async () => {
         const w = new BrowserWindow();
 

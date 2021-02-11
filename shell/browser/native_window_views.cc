@@ -565,6 +565,8 @@ bool NativeWindowViews::IsMinimized() {
   return widget()->IsMinimized();
 }
 
+void SetFullScreenSync(bool fullscreen) {}
+
 void NativeWindowViews::SetFullScreen(bool fullscreen) {
   if (!IsFullScreenable())
     return;

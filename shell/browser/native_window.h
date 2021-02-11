@@ -86,6 +86,7 @@ class NativeWindow : public base::SupportsUserData,
   virtual void Restore() = 0;
   virtual bool IsMinimized() = 0;
   virtual void SetFullScreen(bool fullscreen) = 0;
+  virtual void SetFullScreenSync(bool fullscreen) = 0;
   virtual bool IsFullscreen() const = 0;
   virtual void SetBounds(const gfx::Rect& bounds, bool animate = false) = 0;
   virtual gfx::Rect GetBounds() = 0;
