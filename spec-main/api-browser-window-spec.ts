@@ -4031,6 +4031,8 @@ describe('BrowserWindow module', () => {
 
         const enterFullScreen = emittedNTimes(w, 'enter-full-screen', 2);
         await enterFullScreen;
+
+        expect(w.isFullScreen()).to.be.true('not fullscreen');
       });
 
       it('does not crash when exiting simpleFullScreen (properties)', async () => {
